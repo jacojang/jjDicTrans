@@ -1,0 +1,54 @@
+#jjdict_title {
+    height:15px;
+    width:100%;
+    padding:4px;
+    position:fixed;
+    z-index:999;
+    top:0px;
+    left:0px;
+    -webkit-box-shadow: 0 1px 2px 0 #777;
+    box-shadow: 0 1px 2px 0 #777;
+    background-color:#EEEEEE;
+    font-size:14px;
+    color:black;
+}
+
+#jjdict_main a:hover,
+#jjdict_main a:link,
+#jjdict_main a:visited,
+#jjdict_main a:active {
+	text-decoration: none;	
+	color:gray;
+}
+
+#jjdict_contents {
+	padding:2px;	
+	padding-top:10px;
+}
+
+#jjdict_contents dt {
+	font-size:12px;
+}
+
+#jjdict_contents dd div{
+	font-size:10px;
+	left:0;
+}
+
+#jjdict_contents .fnt_e30 {
+	color:black;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+#jjdict_contents .fnt_e25 {
+	color:black;
+	font-weight: normal;
+	font-size: 14px;
+}
+
+#jjdict_contents .fnt_e07 {
+	color:gray;
+	font-weight: bold;
+	font-size: 12px;
+}
