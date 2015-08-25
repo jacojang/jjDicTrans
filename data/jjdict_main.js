@@ -85,18 +85,32 @@ if(typeof jjdict === "undefined"){
         onDblclick:function(e){
             this.keys_clicked["dbclick"] = true;
             if(this.isHotKeyMatched()){
-                self.port.emit("jjdict.check_selection");
+                this.checkSelectionAndShow();
             }
             this.keys_clicked["dbclick"] = false;
         },
         onKeyUp: function (e) {
             if(this.isHotKeyMatched()){
-				self.port.emit("jjdict.check_selection");
+                this.checkSelectionAndShow();
 			}
             this.uncheckHotKey(e.keyCode,e.shiftKey,e.ctrlKey,e.altKey);
         },
         onKeyDown: function (e) {
             this.checkHotKey(e.keyCode,e.shiftKey,e.ctrlKey,e.altKey);
+        },
+        checkSelectionAndShow:function(){
+            var selobj = window.getSelection();
+            var selobj_txt = selobj.toString().trim();
+
+            if(selobj_txt.length > 0){
+                if(selobj_txt.split(" ").length > 1){
+                    this.showTrans(selobj_txt);
+                }else{
+                    this.showDict(selobj_txt);
+                }
+            }else{
+                this.showDict(false);
+            }
         },
         initHotKey:function(){
             this.keys_clicked["shift"] = false;
