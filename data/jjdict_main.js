@@ -1,7 +1,24 @@
+var SHIFT=16;
+var CTRL=17;
+var ALT=18;
+
 if(typeof jjdict === "undefined"){
 	var jjdict = {
         boundptn: /[^a-zA-Z\-\_\.\,]/,
-        key: 17,
+        keys:{
+            shift:false,
+            ctrl:false,
+            alt:false,
+            dbclick:false,
+            other_key:-1
+        },
+        keys_clicked:{
+            shift:false,
+            ctrl:false,
+            alt:false,
+            dbclick:false,
+            other_key:-1
+        },
         word: null,
         mouseX: 0,
         mouseY: 0,
@@ -45,8 +62,8 @@ if(typeof jjdict === "undefined"){
         },
         init: function () {
             try{
-                document.body.addEventListener('click', function (event) {
-                    jjdict.onclick.call(jjdict, event);
+                document.body.addEventListener('dblclick', function (event) {
+                    jjdict.onDblclick.call(jjdict, event);
                 });
                 document.body.addEventListener('mousemove', function (event) {
                     jjdict.onmove.call(jjdict, event);
@@ -60,26 +77,72 @@ if(typeof jjdict === "undefined"){
             }catch(e){
             }
         },
-        onclick:function(e){
-            this.hotkeydown = false;
-        },
         onmove:function(e){
 			this.mouseX = e.clientX;
             this.mouseY = e.clientY;
             this.mouseTarget = e.target;
         },
+        onDblclick:function(e){
+            this.keys_clicked["dbclick"] = true;
+            if(this.isHotKeyMatched()){
+                self.port.emit("jjdict.check_selection");
+            }
+            this.keys_clicked["dbclick"] = false;
+        },
         onKeyUp: function (e) {
-			if(this.hotkeydown){
+            if(this.isHotKeyMatched()){
 				self.port.emit("jjdict.check_selection");
 			}
+            this.uncheckHotKey(e.keyCode,e.shiftKey,e.ctrlKey,e.altKey);
         },
         onKeyDown: function (e) {
-            //console.log("keydown = "+e.keyCode);
-			if(e.keyCode == this.key){
-				this.hotkeydown = true;
-			}else{
-				this.hotkeydown = false;
-			}
+            this.checkHotKey(e.keyCode,e.shiftKey,e.ctrlKey,e.altKey);
+        },
+        initHotKey:function(){
+            this.keys_clicked["shift"] = false;
+            this.keys_clicked["ctrl"] = false;
+            this.keys_clicked["alt"] = false;
+            this.keys_clicked["other_key"] = -1;
+            dbclick = false;
+        },
+        checkHotKey:function(code,shift,ctrl,alt){
+            //console.log("shift="+shift+",ctrl="+ctrl+",alt="+alt);
+            this.keys_clicked["shift"] = shift;
+            this.keys_clicked["ctrl"] = ctrl;
+            this.keys_clicked["alt"] = alt;
+            if(code == SHIFT) { this.keys_clicked["shift"] = true; return; }
+            if(code == CTRL) { this.keys_clicked["ctrl"] = true; return; }
+            if(code == ALT) { this.keys_clicked["alt"] = true; return; }
+            this.keys_clicked["other_key"] = code;
+        },
+        uncheckHotKey:function(code,shift,ctrl,alt){
+            this.keys_clicked["dbclick"] = false;
+            this.keys_clicked["shift"] = shift;
+            this.keys_clicked["ctrl"] = ctrl;
+            this.keys_clicked["alt"] = alt;
+            if(code == SHIFT) { this.keys_clicked["shift"] = false; return; }
+            if(code == CTRL) { this.keys_clicked["ctrl"] = false; return; }
+            if(code == ALT) { this.keys_clicked["alt"] = false; return; }
+            this.keys_clicked["other_key"] = -1;
+        },
+        keyCheck:function(k,k2){
+            //console.log("k="+k+",k2="+k2);
+            if( (k == true && k2 == true) || (k == false && k2 == false) ) return true;
+            return false;
+        },
+        isHotKeyMatched:function(){
+            //console.log(this.keys_clicked);
+            if(!this.keyCheck(this.keys["shift"], this.keys_clicked["shift"])) return false;
+            if(!this.keyCheck(this.keys["ctrl"], this.keys_clicked["ctrl"])) return false;
+            if(!this.keyCheck(this.keys["alt"], this.keys_clicked["alt"])) return false;
+            if(!this.keyCheck(this.keys["dbclick"], this.keys_clicked["dbclick"])) return false;
+            if(this.keys["other_key"] > 0){
+                //console.log("other_key="+this.keys["other_key"]+", clicked="+this.keys_clicked["other_key"]);
+                if(this.keys["other_key"] != this.keys_clicked["other_key"]){
+                    return false; 
+                }
+            }
+            return true;
         },
         getSizePos:function(t){
         	var width = t.size.width;
@@ -215,8 +278,12 @@ if(typeof jjdict === "undefined"){
     });
 
     self.port.on('jjdict.conf', function (conf) {
-        jjdict.key = conf.key;
-
+        //console.log(conf);
+        jjdict.keys.shift = conf.shift;
+        jjdict.keys.ctrl = conf.ctrl;
+        jjdict.keys.alt = conf.alt;
+        jjdict.keys.other_key = conf.other_key;
+        jjdict.keys.dbclick = conf.dbclick;
         jjdict.dict_backend = jjdict.backend.dict[conf.dict_backend];
         jjdict.trans_backend = jjdict.backend.trans[conf.trans_backend];
     });

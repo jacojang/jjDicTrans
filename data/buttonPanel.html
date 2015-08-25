@@ -1,0 +1,62 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/buttonPanel.css" />
+	<script src="buttonPanel.js"></script>
+</head>
+<body>
+	<div id="header"> Settings </div>
+	<div class="item-row">
+		<div class="item item-left">
+			<span class="tspan">사용여부</span>
+		</div>
+		<div class="item item-right">
+			&nbsp;<input id="enable" name="enable" type="checkbox" onclick="enable_clicked()">
+		</div>
+	</div>
+	<div class="item-row">
+		<div class="item item-left" title="">
+			<span class="tspan">활성화 키 조합<span onclick="alert('사전을 활성화 시켜줄 Key를 설정한다.\n만약 마우스 더블클릭이 선택되지 않았다면 4개의 키 중에서 최소한 하나는 선택되어야 한다.')">(?)</span></span>
+		</div>
+		<div class="item item-right">
+			&nbsp;<input id="shift" name="shift" type="checkbox" onclick="activation_key_clicked('shift')"> Shift<br>
+			&nbsp;<input id="ctrl" name="ctrl" type="checkbox" onclick="activation_key_clicked('ctrl')"> Ctrl<br>
+			&nbsp;<input id="alt" name="alt" type="checkbox" onclick="activation_key_clicked('alt')"> Alt<br>
+			&nbsp;<input type="text" id="other_key" name="other_key" value="" style="width:80px" onkeypress="javascript:return false;" onkeydown="activation_other_key(event)" />
+		</div>
+	</div>
+	<div class="item-row">
+		<div class="item item-left">
+			<span class="tspan">마우스 더블클릭</span>
+		</div>
+		<div class="item item-right">
+			&nbsp;<input id="dbclick" name="dbclick" type="checkbox" onclick="activation_key_clicked('dbclick')">
+		</div>
+	</div>
+	<div class="item-row">
+		<div class="item item-left">
+			<span class="tspan">사전 Backend</span>
+		</div>
+		<div class="item item-right">
+			&nbsp;<select id="dict_backend" name="dict_backend" onchange="dict_backend_changed()">
+				<option value="daum">Daum</option>
+				<option value="naver">Naver</option>
+			</select>
+		</div>
+	</div>
+	<div class="item-row">
+		<div class="item item-left">
+			<span class="tspan">번역 Backend</span>
+		</div>
+		<div class="item item-right">
+			&nbsp;<select id="trans_backend" name="trans_backend" onchange="trans_backend_changed()">
+				<option value="google">Google</option>
+				<option value="naver">Naver</option>
+			</select>
+		</div>
+	</div>
+	<div id="footer">
+		by <a href="http://www.jacojang.com" target=_blank>jacojang</a>
+	</div>
+</body>
+</html>

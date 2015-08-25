@@ -1,59 +1,11 @@
 {
 	"name": "jjdict",
-	"title": "Korean/English Dictionary+Translate : jjDicTrans"
+	"title": "간단한 영->한 사전/번역 : jjDicTrans",
 	"id": "jid1-c1ZLWIbWaA4YEA",
 	"description": "English/Korean Dictionary+Translation Addon using a variety of Backend",
 	"author": "jacojang@jacojang.com",
 	"license": "MPL 2.0",
 	"version": "0.3.0",
 	"preferences": [
-		{
-			"name": "jjdict.key",
-			"type": "menulist",
-			"title": "활성화 Key",
-			"value": 16,
-			"options": [
-				{
-					"value": "16",
-					"label": "Shift"
-				},
-				{
-					"value": "17",
-					"label": "Ctrl"
-				}
-			]
-		},
-		{
-			"name": "jjdict.dict_backend",
-			"type": "menulist",
-			"title": "사전 Backend",
-			"value": "naver",
-			"options": [
-				{
-					"value": "daum",
-					"label": "Daum Dictionary"
-				},
-				{
-					"value": "naver",
-					"label": "Naver Dictionary"
-				}
-			]
-		},
-		{
-			"name": "jjdict.trans_backend",
-			"type": "menulist",
-			"title": "번역 Backend",
-			"value": "google",
-			"options": [
-				{
-					"value": "google",
-					"label": "Google Translate"
-				},
-				{
-					"value": "naver",
-					"label": "Naver Translate"
-				}
-			]
-		}
 	]
 }

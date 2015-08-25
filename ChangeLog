@@ -1,8 +1,7 @@
-Changes to 0.3.0 (2015-05-21)
-	- English -> Korean , Korean -> English 모드 추가
-	- Name 변경 및 영문 설명 추가
-		-> Korean/English Dictionary+Translate : jjDicTrans
-	- locale 기능 사용
+Changes to 0.3.0 (2015-08-25)
+	- 설정을 Panel쪽으로 이동.
+	- 활성화키 다양화
+	- 마우스 Double Click 기능 추가.
 
 Changes to 0.2.0 (2015-05-21)
 	- add On/Off action button
