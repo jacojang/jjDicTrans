@@ -19,6 +19,7 @@ if(typeof jjdict === "undefined"){
             dbclick:false,
             other_key:-1
         },
+        enable:true,
         word: null,
         mouseX: 0,
         mouseY: 0,
@@ -99,6 +100,7 @@ if(typeof jjdict === "undefined"){
             this.checkHotKey(e.keyCode,e.shiftKey,e.ctrlKey,e.altKey);
         },
         checkSelectionAndShow:function(){
+            if(this.enable == false) return;
             var selobj = window.getSelection();
             var selobj_txt = selobj.toString().trim();
 
@@ -293,6 +295,7 @@ if(typeof jjdict === "undefined"){
 
     self.port.on('jjdict.conf', function (conf) {
         //console.log(conf);
+        jjdict.enable = conf.enable;
         jjdict.keys.shift = conf.shift;
         jjdict.keys.ctrl = conf.ctrl;
         jjdict.keys.alt = conf.alt;

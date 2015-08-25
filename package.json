@@ -5,7 +5,5 @@
 	"description": "English/Korean Dictionary+Translation Addon using a variety of Backend",
 	"author": "jacojang@jacojang.com",
 	"license": "MPL 2.0",
-	"version": "0.3.2",
-	"preferences": [
-	]
+	"version": "0.3.3"
 }
