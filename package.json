@@ -1,0 +1,15 @@
+{
+	"name": "jjdict",
+<<<<<<< HEAD
+	"title": "간단한 영->한 사전/번역 : jjDicTrans",
+=======
+	"title": "Korean/English Dictionary+Translate : jjDicTrans",
+>>>>>>> 8e452352cf9e4b5e941445001541e26b7472a458
+	"id": "jid1-c1ZLWIbWaA4YEA",
+	"description": "English/Korean Dictionary+Translation Addon using a variety of Backend",
+	"author": "jacojang@jacojang.com",
+	"license": "MPL 2.0",
+	"version": "0.3.0",
+	"preferences": [
+	]
+}
