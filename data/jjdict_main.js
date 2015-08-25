@@ -176,6 +176,7 @@ if(typeof jjdict === "undefined"){
             }
         },
         showDict:function(txt){
+			txt = txt.trim();
         	if(txt){
         		this.word = {word:txt};
         	}else{
