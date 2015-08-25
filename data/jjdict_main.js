@@ -176,9 +176,8 @@ if(typeof jjdict === "undefined"){
             }
         },
         showDict:function(txt){
-			txt = txt.trim();
         	if(txt){
-        		this.word = {word:txt};
+        		this.word = {word:txt.trim()};
         	}else{
 	            this.word = this.getWordAtPoint(this.mouseTarget, this.mouseX, this.mouseY);
         	}
