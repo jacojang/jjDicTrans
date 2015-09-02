@@ -1,3 +1,4 @@
+var gplatform = "unknown";
 function init_audio(){
 	var audio = document.createElement("AUDIO");		
 	audio.id="my_player";
@@ -18,10 +19,12 @@ function daum_dict_modify(audio){
 			var re = /.*'(http.*)'.*/;
 			var rea = re.exec(a["onclick"].toString());
 			console.log(rea);
-			a.addEventListener("click",function(event){
-				audio.src = rea[1] ;
-				audio.play();
-			});	
+			(function(obj,url){
+				obj.addEventListener("click",function(event){
+					audio.src = url;
+					audio.play();
+				});	
+			})(a,rea[1]);
 		}
 	}
 }
@@ -71,8 +74,26 @@ var naver_speech_url = function(sText, oOptions, vcode) {
 	}
 };
 
-function naver_dict_modify(audio){	
+function naver_dict_modify(audio,all){	
 	if(!audio){ audio = document.getElementById("my_player"); }
+
+	if(all){
+		var as = document.getElementsByTagName("A");
+		for( var i = 0 ; i < as.length ; ++i){
+			var a = as[i];
+			var cname = a.className;
+			if(cname == "play3"){
+				var url = a.getAttribute("playlist");
+				(function(obj,url){
+					obj.addEventListener("click",function(event){
+						audio.src = url;
+						audio.play();
+					});	
+				})(a,url);
+			}
+		}
+	}
+
 	var as = document.getElementsByTagName("IMG");
 	for( var i = 0 ; i < as.length ; ++i){
 		var a = as[i];
@@ -94,12 +115,25 @@ function naver_dict_modify(audio){
 	}
 }
 
-var audio = init_audio();
+self.port.on("init_platform",function(platform){
+	// Mac = darwin
+	// Linux = linux
+	// Windows = winnt
+	gplatform = platform;
+	var audio = init_audio();
 
-// 1. is daum?
-var is_daum = (document.location.host.indexOf("daum") != -1)?true:false;
-// 2. is naver?
-var is_naver = (document.location.host.indexOf("naver") != -1)?true:false;
+	// 1. is daum?
+	var is_daum = (document.location.host.indexOf("daum") != -1)?true:false;
+	// 2. is naver?
+	var is_naver = (document.location.host.indexOf("naver") != -1)?true:false;
 
-if(is_daum) daum_dict_modify(audio);
-if(is_naver) naver_dict_modify(audio);
+	if(gplatform == "winnt"){
+		if(is_daum) daum_dict_modify(audio);
+		if(is_naver) naver_dict_modify(audio,true);
+	}else if(gplatform == "linux"){
+		if(is_daum) daum_dict_modify(audio);
+		if(is_naver) naver_dict_modify(audio,false);
+	}else if(gplatform == "darwin"){
+		if(is_naver) naver_dict_modify(audio,false);
+	}
+});
