@@ -293,6 +293,10 @@ if(typeof jjdict === "undefined"){
     	jjdict.showDict(txt);
     });
 
+    self.port.on('jjdict.context_click',function(){
+        jjdict.checkSelectionAndShow();
+    });
+
     self.port.on('jjdict.conf', function (conf) {
         //console.log(conf);
         jjdict.enable = conf.enable;
