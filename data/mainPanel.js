@@ -9,6 +9,7 @@ function initAudio() {
 
 function daumDictModify(audio) {
 	if (!audio) { audio = document.getElementById('my_player'); }
+
 	var as = document.getElementsByTagName('A');
 	for (var i = 0 ; i < as.length ; ++i) {
 		var a = as[i];
@@ -25,6 +26,34 @@ function daumDictModify(audio) {
 			})(a,rea[1]);
 		}
 	}
+
+	// Word Speaking
+	var as = document.getElementsByTagName('A');
+	for (var i in as) {
+		var a = as[i];
+		var cname = a.className;
+		if (cname == 'btn_comm btn_listen') {
+			var re = /.*'(http.*)'.*/;
+			var rea = re.exec(a.onclick.toString());
+			var url = rea[1];
+			var pnode = a.parentNode;
+
+			// create Element
+			var newImg = document.createElement('IMG');
+			newImg.style.cursor = 'pointer';
+			newImg.src = 'http://m1.daumcdn.net/imgsrc.search/dic/dic_2014/images/m320/btn_comm_131210.gif';
+			pnode.insertBefore(newImg,a);
+			a.style.display = 'none';
+
+			(function(obj, url) {
+				obj.addEventListener('click',function(event) {
+					audio.src = url;
+					audio.play();
+				});
+			})(newImg,url);
+		}
+	}
+
 }
 
 var naverSpeechURL = function(sText, oOptions, vcode) {
