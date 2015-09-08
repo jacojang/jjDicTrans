@@ -34,13 +34,13 @@ if(typeof jjdict === "undefined"){
 					url:function(txt){
 		        		return ["http://endic.naver.com/popManager.nhn?sLn=kr&m=search&query="+encodeURI(txt)+"&searchOption=entry_idiom&isOnlyViewEE=N",false];
         			},
-        			size:{width:408, height:440 }
+        			size:{width:410, height:440 }
 				},
 				daum:{
 					url:function(txt){
 		        		return ["http://small.dic.daum.net/search.do?q="+encodeURI(txt)+"&dic=eng&search_first=Y",false];
 					},
-					size:{width:408, height:440 }
+					size:{width:410, height:440 }
 				}
 			},
 			trans:{
@@ -155,7 +155,7 @@ if(typeof jjdict === "undefined"){
             if(this.keys["other_key"] > 0){
                 //console.log("other_key="+this.keys["other_key"]+", clicked="+this.keys_clicked["other_key"]);
                 if(this.keys["other_key"] != this.keys_clicked["other_key"]){
-                    return false; 
+                    return false;
                 }
             }
             return true;
