@@ -1,10 +1,10 @@
-var SHIFT=16;
-var CTRL=17;
-var ALT=18;
+var SHIFT = 16;
+var CTRL = 17;
+var ALT = 18;
 
 if(typeof jjdict === "undefined"){
 	var jjdict = {
-        boundptn: /[^a-zA-Z\-\_\.\,]/,
+		boundptn:null,
         keys:{
             shift:false,
             ctrl:false,
@@ -25,43 +25,20 @@ if(typeof jjdict === "undefined"){
         mouseY: 0,
         mouseTarget: null,
         keydown: false,
-        dict_backend: null,
-        trans_backend: null,
-		hotkeydown: false,
         backend:{
-			dict:{
-				naver:{
-					url:function(txt){
-		        		return ["http://endic.naver.com/popManager.nhn?sLn=kr&m=search&query="+encodeURI(txt)+"&searchOption=entry_idiom&isOnlyViewEE=N",false];
-        			},
-        			size:{width:410, height:440 }
-				},
-				daum:{
-					url:function(txt){
-		        		return ["http://small.dic.daum.net/search.do?q="+encodeURI(txt)+"&dic=eng&search_first=Y",false];
-					},
-					size:{width:410, height:440 }
-				}
-			},
-			trans:{
-				naver:{
-					url:function(txt){
-						var id="transEditorText";
-		        		return ["http://translate.naver.com/#/en/ko/",{oid:id,text:txt,btn:"startTranslateBtn"}];
-        			},
-        			size:{width:900, height:420 }
-				},
-				google:{
-					url:function(txt){
-						var id="source";
-		        		return ["https://translate.google.co.kr/#en/ko/",{oid:id,text:txt}];
-        			},
-        			size:{width:800, height:420 }
-				}
-
-			}
-        },
-        init: function () {
+			dict:null,
+			trans:null
+		},
+		lang:{
+			from:'en',
+			to:'ko'
+		},
+		hotkeydown: false,
+		backendBoundPtn:{
+			'en':{ boundptn: /[^0-9a-zA-Z\-\_\.\,]/ },
+			'jp':{ boundptn: /[^0-9\u3040-\u30ff\u31f0-\u31ff\-\_\.\,]/ }
+		},
+    init: function () {
             try{
                 document.body.addEventListener('dblclick', function (event) {
                     jjdict.onDblclick.call(jjdict, event);
@@ -114,6 +91,15 @@ if(typeof jjdict === "undefined"){
                 this.showDict(false);
             }
         },
+				openPanel:function(type){
+					if(type=="dict"){
+	            var url = this.backend.dict.url("");
+	            self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.dict));
+					}else if(type=="trans"){
+	            var url = this.backend.trans.url("");
+	            self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.trans));
+					}
+				},
         initHotKey:function(){
             this.keys_clicked["shift"] = false;
             this.keys_clicked["ctrl"] = false;
@@ -160,35 +146,12 @@ if(typeof jjdict === "undefined"){
             }
             return true;
         },
-        getSizePos:function(t){
-        	var width = t.size.width;
-        	var height = t.size.height;
-        	//var top = 0 - (window.outerHeight - window.innerHeight);
-            var top = 0;
-        	var left = window.outerWidth-(width+2);
-
-        	/*
-        	console.log("window.innerWidth="+window.innerWidth+", window.screen.width="+window.screen.width);
-        	console.log("window.innerHeight="+window.innerHeight+", window.screen.height="+window.screen.height);
-        	console.log("window.screen.top="+window.screen.top+", window.screen.left="+window.screen.left);
-        	console.log("window.screenX="+window.screenX+", window.screenY="+window.screenY);
-        	console.log("window.screen.availTop="+window.screen.availTop+", window.screen.availLeft="+window.screen.availLeft);
-        	console.log("window.statusbar.height="+window.statusbar.height+", window.outherHeight="+window.outerHeight);
-        	*/
-
-
-        	return {
-        		width:width,
-        		height:height,
-        		top:top,
-        		left:left
-        	}
-        },
         showTrans:function(selection_txt){
         	this.selection_words = selection_txt;
             if (selection_txt) {
-	            var url = this.trans_backend.url(selection_txt);
-	            self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.trans_backend));
+	            //var url = this.backend.trans.url(selection_txt);
+	            //self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.trans));
+	            self.port.emit('jjdict.request',selection_txt, "trans");
             }
         },
         showDict:function(txt){
@@ -199,11 +162,12 @@ if(typeof jjdict === "undefined"){
         	}
 
             if (this.word) {
-            	if(!this.word.word.match(/^[A-Za-z0-9\_\-\.\,\/\;\:]+$/)){
-    				return;
-    			}
-	            var url = this.dict_backend.url(this.word.word);
-	            self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.dict_backend));
+            	//if(!this.word.word.match(/^[A-Za-z0-9\_\-\.\,\/\;\:]+$/)){
+    			//	return;
+    			//}
+	            //var url = this.backend.dict.url(this.word.word);
+	            //self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.dict));
+	            self.port.emit('jjdict.request',this.word.word, "dict");
             }
         },
         setLowBound: function (textElem, range) {
@@ -297,6 +261,10 @@ if(typeof jjdict === "undefined"){
         jjdict.checkSelectionAndShow();
     });
 
+		self.port.on('jjdict.panel_open',function(type){
+				jjdict.openPanel(type);
+		});
+
     self.port.on('jjdict.conf', function (conf) {
         //console.log(conf);
         jjdict.enable = conf.enable;
@@ -305,7 +273,12 @@ if(typeof jjdict === "undefined"){
         jjdict.keys.alt = conf.alt;
         jjdict.keys.other_key = conf.other_key;
         jjdict.keys.dbclick = conf.dbclick;
-        jjdict.dict_backend = jjdict.backend.dict[conf.dict_backend];
-        jjdict.trans_backend = jjdict.backend.trans[conf.trans_backend];
+        jjdict.lang.from = conf.lang_from;
+        jjdict.lang.to = conf.lang_from;
+        jjdict.backend.dict = conf.backend_dict;
+        jjdict.backend.trans = conf.backend_trans;
+				jjdict.boundptn = jjdict.backendBoundPtn[jjdict.lang.from].boundptn;
+        //jjdict.backend.dict = jjdict.backendSet[jjdict.lang.from].dict[conf.backend_dict];
+        //jjdict.backend.trans = jjdict.backendSet[jjdict.lang.from].trans[conf.backend_trans];
     });
 };

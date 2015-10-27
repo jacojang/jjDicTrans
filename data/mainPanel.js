@@ -24,13 +24,14 @@ function removeBackground(querys) {
 }
 
 function daumDictModify(audio) {
-	removeElement(['header']);
-	removeBackground(['#daumWrap']);
+	//removeElement(['header']);
+	//removeBackground(['#daumWrap']);
 	return;
 }
 
 function naverDictModify(audio) {
-	removeElement(['#header','#top_search']);
+	//removeElement(['#header','#top_search']);
+	removeElement(['#header']);
 }
 
 function googleTransModify(audio) {

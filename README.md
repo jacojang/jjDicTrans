@@ -26,6 +26,8 @@ Daum/Naver/Google등의 Backend를 활용한 간단한 영한사전 + 영한번�
 
 ## ChangeLog
 ```
+v0.4.2
+	- 번역과사전 창을 임의로 띄울수 있는 링크 추가
 v0.4.1
   - Popup Context Menu에 여러 항목이 중복으로 나열되는 문제 처리
 v0.4.0

@@ -5,6 +5,11 @@
 	<script src="buttonPanel.js"></script>
 </head>
 <body>
+	<div id="header"> Links </div>
+	<div class="item-row">
+		<div class="link_item" onclick="open_panel('dict');">사전창</div>
+		<div class="link_item" onclick="open_panel('trans');">번역창</div>
+	</div>
 	<div id="header"> Settings </div>
 	<div class="item-row">
 		<div class="item item-left">
@@ -38,7 +43,7 @@
 			<span class="tspan">사전 Backend</span>
 		</div>
 		<div class="item item-right">
-			&nbsp;<select id="dict_backend" name="dict_backend" onchange="dict_backend_changed()">
+			&nbsp;<select id="backend_dict" name="backend_dict" onchange="backend_dict_changed()">
 				<option value="daum">Daum</option>
 				<option value="naver">Naver</option>
 			</select>
@@ -49,14 +54,14 @@
 			<span class="tspan">번역 Backend</span>
 		</div>
 		<div class="item item-right">
-			&nbsp;<select id="trans_backend" name="trans_backend" onchange="trans_backend_changed()">
+			&nbsp;<select id="backend_trans" name="backend_trans" onchange="backend_trans_changed()">
 				<option value="google">Google</option>
 				<option value="naver">Naver</option>
 			</select>
 		</div>
 	</div>
 	<div id="footer">
-		by <a href="http://www.jacojang.com" target=_blank>jacojang</a>
+		by <a href="https://github.com/jacojang/jjDicTrans" target=_blank>jacojang</a>
 	</div>
 </body>
 </html>
