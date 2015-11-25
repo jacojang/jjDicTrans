@@ -33,6 +33,8 @@ if(typeof jjdict === "undefined"){
 			from:'en',
 			to:'ko'
 		},
+		selection:false,
+		selectionObj:false,
 		hotkeydown: false,
 		backendBoundPtn:{
 			'en':{ boundptn: /[^0-9a-zA-Z\-\_\.\,]/ },
@@ -82,24 +84,28 @@ if(typeof jjdict === "undefined"){
             var selobj_txt = selobj.toString().trim();
 
             if(selobj_txt.length > 0){
+				this.selection = true;
+				this.selectionObj = selobj;
                 if(selobj_txt.split(" ").length > 1){
                     this.showTrans(selobj_txt);
                 }else{
                     this.showDict(selobj_txt);
                 }
             }else{
+				this.selection = false;
+				this.selectionObj = false;
                 this.showDict(false);
             }
         },
-				openPanel:function(type){
-					if(type=="dict"){
-	            var url = this.backend.dict.url("");
-	            self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.dict));
-					}else if(type=="trans"){
-	            var url = this.backend.trans.url("");
-	            self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.trans));
-					}
-				},
+		openPanel:function(type){
+			if(type=="dict"){
+		        var url = this.backend.dict.url("");
+		        self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.dict));
+			}else if(type=="trans"){
+		        var url = this.backend.trans.url("");
+		        self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.trans));
+			}
+		},
         initHotKey:function(){
             this.keys_clicked["shift"] = false;
             this.keys_clicked["ctrl"] = false;
@@ -167,7 +173,21 @@ if(typeof jjdict === "undefined"){
     			//}
 	            //var url = this.backend.dict.url(this.word.word);
 	            //self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.dict));
-	            self.port.emit('jjdict.request',this.word.word, "dict");
+				var pos = {top:0,left:0};
+				if(this.selection){
+					try{
+						oRange = this.selectionObj.getRangeAt(0); //get the text range
+						oRect = oRange.getBoundingClientRect();
+						pos.left = oRect.left;
+						pos.top = oRect.top;
+					}catch(e){
+						pos = false;
+					}
+				}else{
+					pos.left = this.mouseX;
+					pos.top = this.mouseY;
+				}
+	            self.port.emit('jjdict.request',this.word.word, "dict",pos);
             }
         },
         setLowBound: function (textElem, range) {
