@@ -44,6 +44,8 @@ self.port.on('init_platform',function(platform) {
 	// Windows = winnt
 	var audio = initAudio();
 
+	document.documentElement.style.overflowX='hidden';
+
 	// 1. is daum?
 	var isDaum = (document.location.host.indexOf('daum') != -1) ? true : false;
 	// 2. is naver?

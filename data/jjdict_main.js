@@ -20,6 +20,8 @@ if(typeof jjdict === "undefined"){
             other_key:-1
         },
         enable:true,
+        mode:0,
+        popup_pos:0,
         word: null,
         mouseX: 0,
         mouseY: 0,
@@ -38,7 +40,7 @@ if(typeof jjdict === "undefined"){
 			'en':{ boundptn: /[^0-9a-zA-Z\-\_\.\,]/ },
 			'jp':{ boundptn: /[^0-9\u3040-\u30ff\u31f0-\u31ff\-\_\.\,]/ }
 		},
-    init: function () {
+	    init: function () {
             try{
                 document.body.addEventListener('dblclick', function (event) {
                     jjdict.onDblclick.call(jjdict, event);
@@ -81,25 +83,42 @@ if(typeof jjdict === "undefined"){
             var selobj = window.getSelection();
             var selobj_txt = selobj.toString().trim();
 
-            if(selobj_txt.length > 0){
-                if(selobj_txt.split(" ").length > 1){
-                    this.showTrans(selobj_txt);
-                }else{
+			if(this.mode == 0){
+				// 사전 + 번역 Mode
+	            if(selobj_txt.length > 0){
+	                if(selobj_txt.split(" ").length > 1){
+	                    this.showTrans(selobj_txt);
+	                }else{
+	                    this.showDict(selobj_txt);
+	                }
+	            }else{
+	                this.showDict(false);
+	            }
+			}else if(this.mode == 1){
+				// 사전 Only Mode
+	            if(selobj_txt.length > 0){
                     this.showDict(selobj_txt);
-                }
-            }else{
-                this.showDict(false);
-            }
+				}else{
+	                this.showDict(false);
+				}
+			}else if(this.mode == 2){
+				// 번역 Only Mode
+    			if(selobj_txt.length > 0){
+                    this.showTrans(selobj_txt);
+				}else{
+                    this.showTrans(false);
+				}
+			}
         },
-				openPanel:function(type){
-					if(type=="dict"){
-	            var url = this.backend.dict.url("");
-	            self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.dict));
-					}else if(type=="trans"){
-	            var url = this.backend.trans.url("");
-	            self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.trans));
-					}
-				},
+		openPanel:function(type){
+			if(type=="dict"){
+		        var url = this.backend.dict.url("");
+		        self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.dict));
+			}else if(type=="trans"){
+		        var url = this.backend.trans.url("");
+		        self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.trans));
+			}
+		},
         initHotKey:function(){
             this.keys_clicked["shift"] = false;
             this.keys_clicked["ctrl"] = false;
@@ -108,7 +127,6 @@ if(typeof jjdict === "undefined"){
             dbclick = false;
         },
         checkHotKey:function(code,shift,ctrl,alt){
-            //console.log("shift="+shift+",ctrl="+ctrl+",alt="+alt);
             this.keys_clicked["shift"] = shift;
             this.keys_clicked["ctrl"] = ctrl;
             this.keys_clicked["alt"] = alt;
@@ -128,30 +146,30 @@ if(typeof jjdict === "undefined"){
             this.keys_clicked["other_key"] = -1;
         },
         keyCheck:function(k,k2){
-            //console.log("k="+k+",k2="+k2);
             if( (k == true && k2 == true) || (k == false && k2 == false) ) return true;
             return false;
         },
         isHotKeyMatched:function(){
-            //console.log(this.keys_clicked);
             if(!this.keyCheck(this.keys["shift"], this.keys_clicked["shift"])) return false;
             if(!this.keyCheck(this.keys["ctrl"], this.keys_clicked["ctrl"])) return false;
             if(!this.keyCheck(this.keys["alt"], this.keys_clicked["alt"])) return false;
             if(!this.keyCheck(this.keys["dbclick"], this.keys_clicked["dbclick"])) return false;
             if(this.keys["other_key"] > 0){
-                //console.log("other_key="+this.keys["other_key"]+", clicked="+this.keys_clicked["other_key"]);
                 if(this.keys["other_key"] != this.keys_clicked["other_key"]){
                     return false;
                 }
             }
             return true;
         },
-        showTrans:function(selection_txt){
-        	this.selection_words = selection_txt;
-            if (selection_txt) {
-	            //var url = this.backend.trans.url(selection_txt);
-	            //self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.trans));
-	            self.port.emit('jjdict.request',selection_txt, "trans");
+        showTrans:function(txt){
+			var selection_words = null;
+        	if(txt){
+	        	selection_words = txt;
+			}else{
+	            selection_words = this.getWordAtPoint(this.mouseTarget, this.mouseX, this.mouseY).word;
+			}
+            if (selection_words) {
+	            self.port.emit('jjdict.request',selection_words, "trans", {left:this.mouseX,top:this.mouseY});
             }
         },
         showDict:function(txt){
@@ -162,12 +180,7 @@ if(typeof jjdict === "undefined"){
         	}
 
             if (this.word) {
-            	//if(!this.word.word.match(/^[A-Za-z0-9\_\-\.\,\/\;\:]+$/)){
-    			//	return;
-    			//}
-	            //var url = this.backend.dict.url(this.word.word);
-	            //self.port.emit('jjdict.request', url[0],url[1],this.getSizePos(this.backend.dict));
-	            self.port.emit('jjdict.request',this.word.word, "dict");
+	            self.port.emit('jjdict.request',this.word.word, "dict", {left:this.mouseX,top:this.mouseY});
             }
         },
         setLowBound: function (textElem, range) {
@@ -250,24 +263,18 @@ if(typeof jjdict === "undefined"){
 	};
 	jjdict.init();
 
-    self.port.on('jjdict.trans_mode',function(selection_txt){
-    	jjdict.showTrans(selection_txt);
-    });
-    self.port.on('jjdict.dict_mode',function(txt){
-    	jjdict.showDict(txt);
-    });
-
     self.port.on('jjdict.context_click',function(){
         jjdict.checkSelectionAndShow();
     });
 
-		self.port.on('jjdict.panel_open',function(type){
-				jjdict.openPanel(type);
-		});
+	self.port.on('jjdict.panel_open',function(type){
+			jjdict.openPanel(type);
+	});
 
     self.port.on('jjdict.conf', function (conf) {
-        //console.log(conf);
         jjdict.enable = conf.enable;
+        jjdict.mode = conf.mode;
+        jjdict.popup_pos = conf.popup_pos;
         jjdict.keys.shift = conf.shift;
         jjdict.keys.ctrl = conf.ctrl;
         jjdict.keys.alt = conf.alt;
@@ -277,8 +284,6 @@ if(typeof jjdict === "undefined"){
         jjdict.lang.to = conf.lang_from;
         jjdict.backend.dict = conf.backend_dict;
         jjdict.backend.trans = conf.backend_trans;
-				jjdict.boundptn = jjdict.backendBoundPtn[jjdict.lang.from].boundptn;
-        //jjdict.backend.dict = jjdict.backendSet[jjdict.lang.from].dict[conf.backend_dict];
-        //jjdict.backend.trans = jjdict.backendSet[jjdict.lang.from].trans[conf.backend_trans];
+		jjdict.boundptn = jjdict.backendBoundPtn[jjdict.lang.from].boundptn;
     });
 };

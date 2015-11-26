@@ -237,6 +237,26 @@ function backend_trans_changed(){
 	}
 }
 
+function mode_changed(){
+	var mode = document.getElementById("mode");
+	for(var i=0; i < mode.options.length; i++){
+		var opt = mode.options[i];
+		if(opt.selected == true){
+			addon.port.emit('update_prefs',"mode",opt.value);
+		}
+	}
+}
+
+function popup_pos_changed(){
+	var popup_pos = document.getElementById("popup_pos");
+	for(var i=0; i < popup_pos.options.length; i++){
+		var opt = popup_pos.options[i];
+		if(opt.selected == true){
+			addon.port.emit('update_prefs',"popup_pos",opt.value);
+		}
+	}
+}
+
 function open_panel(type){
 		addon.port.emit('open_panel',type);
 }
