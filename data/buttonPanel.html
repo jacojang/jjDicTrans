@@ -20,8 +20,20 @@
 		</div>
 	</div>
 	<div class="item-row">
+		<div class="item item-left">
+			<span class="tspan">실행모드</span>
+		</div>
+		<div class="item item-right">
+			&nbsp;<select id="mode" name="mode" onchange="mode_changed()">
+				<option value="0">사전 + 번역</option>
+				<option value="1">사전 only</option>
+				<option value="2">번역 only</option>
+			</select>
+		</div>
+	</div>
+	<div class="item-row">
 		<div class="item item-left" title="">
-			<span class="tspan">활성화 키 조합<span onclick="alert('사전을 활성화 시켜줄 Key를 설정한다.\n만약 마우스 더블클릭이 선택되지 않았다면 4개의 키 중에서 최소한 하나는 선택되어야 한다.')">(?)</span></span>
+			<span class="tspan"><span onclick="alert('사전을 활성화 시켜줄 Key를 설정한다.\n만약 마우스 더블클릭이 선택되지 않았다면 4개의 키 중에서 최소한 하나는 선택되어야 한다.')">활성화 키 조합</span></span>
 		</div>
 		<div class="item item-right">
 			&nbsp;<input id="shift" name="shift" type="checkbox" onclick="activation_key_clicked('shift')"> Shift<br>
@@ -38,7 +50,7 @@
 			&nbsp;<input id="dbclick" name="dbclick" type="checkbox" onclick="activation_key_clicked('dbclick')">
 		</div>
 	</div>
-	<div class="item-row">
+<div class="item-row">
 		<div class="item item-left">
 			<span class="tspan">사전 Backend</span>
 		</div>
@@ -57,6 +69,17 @@
 			&nbsp;<select id="backend_trans" name="backend_trans" onchange="backend_trans_changed()">
 				<option value="google">Google</option>
 				<option value="naver">Naver</option>
+			</select>
+		</div>
+	</div>
+	<div class="item-row">
+		<div class="item item-left">
+			<span class="tspan">Popup위치</span>
+		</div>
+		<div class="item item-right">
+			&nbsp;<select id="popup_pos" name="popup_pos" onchange="popup_pos_changed()">
+				<option value="0">우측상단</option>
+				<option value="1">커서위치</option>
 			</select>
 		</div>
 	</div>
