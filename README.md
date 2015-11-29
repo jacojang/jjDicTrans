@@ -52,7 +52,7 @@ Daum/Naver/Google등의 Backend를 활용한 간단한 영한사전 + 영한번�
 	- Google 번역
 	- Naver 번역
 	```
-	
+
 * **Popup 위치**
 
 	> 사전/번역 정보 Popup이 출력 되는 위치에 대한 설정이다. 팜업창이 컨텐츠를 가려서 불편하다면 설정을 변경해 보자.
@@ -65,6 +65,9 @@ Daum/Naver/Google등의 Backend를 활용한 간단한 영한사전 + 영한번�
 
 ## ChangeLog
 ```
+v0.5.1
+	- Popup창 위치 변경 후 원복 되지 않던 문제 수정
+
 v0.5.0
 	- Popup창 위치를 설정할 수 있는 옵션 추가.
 	- Mode 설정 옵션 추가
