@@ -22,7 +22,7 @@ a,a:link, a:active, a:hover, a:visited {
 	text-align: center;
 	vertical-align: middle;
 	display: table-cell;
-	width:200px;
+	width:220px;
 }
 
 #header span {
@@ -34,7 +34,7 @@ a,a:link, a:active, a:hover, a:visited {
 .link_item {
 	margin: 5px;
 	float: left;
-	width : 80px;
+	width : 90px;
 	border: 1px solid #454545;
 	border-radius: 3px;
 	padding:3px;
@@ -57,7 +57,7 @@ a,a:link, a:active, a:hover, a:visited {
 }
 .item-right {
 	display: table-cell;
-	width:90px;
+	width:110px;
 	background-color: #FFFFFF;
 }
 

@@ -1,3 +1,6 @@
+Changes to 0.5.2 (2016-01-08)
+	- adjust popup size
+
 Changes to 0.5.1 (2015-11-30)
 	- Popup창 위치 변경 후 원복 되지 않던 문제 수정
 
