@@ -1,3 +1,7 @@
+Changes to 0.5.3 (2016-01-08)
+	- bugfix
+		- backgrun-color --> background-color
+
 Changes to 0.5.2 (2016-01-08)
 	- adjust popup size
 

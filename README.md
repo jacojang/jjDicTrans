@@ -65,6 +65,9 @@ Daum/Naver/Google등의 Backend를 활용한 간단한 영한사전 + 영한번�
 
 ## ChangeLog
 ```
+v0.5.3
+	- backgrun-color --> background-color
+
 v0.5.2
 	- adjust popup size
 

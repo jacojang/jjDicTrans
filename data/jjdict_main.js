@@ -1,3 +1,8 @@
+/**
+ * @file jjdict_main
+ * @author jacojang <jacojang@jacojang.com>
+ */
+
 var SHIFT = 16;
 var CTRL = 17;
 var ALT = 18;
