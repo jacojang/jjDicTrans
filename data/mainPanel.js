@@ -26,16 +26,20 @@ function removeBackground(querys) {
 function daumDictModify(audio) {
 	//removeElement(['header']);
 	//removeBackground(['#daumWrap']);
+	var btn = document.querySelector('.btn_before');
+	btn.addEventListener('onclick', function(){
+		console.log("alskdjflaksdjflaskdjf");
+	}, false);
 	return;
 }
 
 function naverDictModify(audio) {
 	//removeElement(['#header','#top_search']);
-	removeElement(['#header']);
+	//removeElement(['#header']);
 }
 
 function googleTransModify(audio) {
-	removeElement(['#gb','#gba']);
+	//removeElement(['#gb','#gba']);
 }
 
 self.port.on('init_platform',function(platform) {

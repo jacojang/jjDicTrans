@@ -65,6 +65,11 @@ Daum/Naver/Google등의 Backend를 활용한 간단한 영한사전 + 영한번�
 
 ## ChangeLog
 ```
+v0.5.4
+	- 사전창에 타이틀이 다시 보이도록 수정
+	- bugfix
+		- mode 와 popup_pos 변경 값이 설정창에 반영되지 않던 문제 수정
+
 v0.5.3
 	- backgrun-color --> background-color
 

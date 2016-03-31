@@ -282,6 +282,16 @@ addon.port.on("init_load",function(prefs){
 	p_other_key = get_string_from_code(prefs["jjdict.keys.other_key"]);
 	other_key.value = p_other_key;
 
+	var mode = document.getElementById("mode");
+	for(var i=0; i < mode.options.length; i++){
+		var opt = mode.options[i];
+		if(opt.value == prefs["jjdict.mode"]){
+			opt.selected = true;
+		}else{
+			opt.selected = false;
+		}
+	}
+
 	var backend_dict = document.getElementById("backend_dict");
 	for(var i=0; i < backend_dict.options.length; i++){
 		var opt = backend_dict.options[i];
@@ -296,6 +306,16 @@ addon.port.on("init_load",function(prefs){
 	for(var i=0; i < backend_trans.options.length; i++){
 		var opt = backend_trans.options[i];
 		if(opt.value == prefs["jjdict.backend.trans"]){
+			opt.selected = true;
+		}else{
+			opt.selected = false;
+		}
+	}
+
+	var popup_pos = document.getElementById("popup_pos");
+	for(var i=0; i < popup_pos.options.length; i++){
+		var opt = popup_pos.options[i];
+		if(opt.value == prefs["jjdict.popup_pos"]){
 			opt.selected = true;
 		}else{
 			opt.selected = false;
