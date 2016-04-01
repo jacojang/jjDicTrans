@@ -1,9 +1,16 @@
 {
-	"name": "jjdict",
 	"title": "간단한 영->한 사전/번역 : jjDicTrans",
-	"id": "jid1-c1ZLWIbWaA4YEA",
+	"name": "jjdict",
+	"version": "0.5.4",
+	"id": "jid1-c1ZLWIbWaA4YEA@jetpack",
 	"description": "English/Korean Dictionary+Translation Addon using a variety of Backend",
+	"main": "lib/main.js",
 	"author": "jacojang@jacojang.com",
+	"engines": {
+		"firefox": ">=38.0a1"
+	},
 	"license": "MPL 2.0",
-	"version": "0.5.4"
+	"keywords": [
+		"jetpack"
+	]
 }

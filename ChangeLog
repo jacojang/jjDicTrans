@@ -1,5 +1,6 @@
 Changes to 0.5.4 (2016-03-31)
 	- 사전창에 타이틀이 다시 보이도록 수정
+	- build tool changed (from cfx to jpm)
 	- bugfix
 		- mode 와 popup_pos 변경 값이 설정창에 반영되지 않던 문제 수정
 
