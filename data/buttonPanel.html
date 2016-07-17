@@ -5,10 +5,17 @@
 	<script src="buttonPanel.js"></script>
 </head>
 <body>
-	<div id="header"> Links </div>
+	<div id="header">Quick Search</div>
 	<div class="item-row">
-		<div class="link_item" onclick="open_panel('dict');">사전창</div>
-		<div class="link_item" onclick="open_panel('trans');">번역창</div>
+	</div>
+	<div class="item-row">
+		<div class="keyword_item" style="margin-top:5px;">
+			<input type="text" name="keyword" id="keyword">
+		</div>
+		<div class="keyword_item" style="margin-bottom:5px;">
+			<div class="link_item" onclick="open_panel('dict');">사전</div>
+			<div class="link_item" onclick="open_panel('trans');">번역</div>
+		</div>
 	</div>
 	<div id="header"> Settings </div>
 	<div class="item-row">

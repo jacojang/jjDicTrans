@@ -258,7 +258,14 @@ function popup_pos_changed(){
 }
 
 function open_panel(type){
-		addon.port.emit('open_panel',type);
+		var keyword = document.getElementById("keyword");
+		var keywordText = keyword.value;
+
+		if(keywordText.length > 0){
+			addon.port.emit('open_panel',type, keywordText);
+		} else {
+			addon.port.emit('open_panel',type, "");
+		}
 }
 addon.port.on("init_load",function(prefs){
 	var enable = document.getElementById("enable");
@@ -321,4 +328,14 @@ addon.port.on("init_load",function(prefs){
 			opt.selected = false;
 		}
 	}
+
+	// Focus keyword input
+	var keyword = document.getElementById("keyword");
+	keyword.focus();
+	keyword.addEventListener("keyup", function(event) {
+		event.preventDefault();
+		if (event.keyCode == 13) {
+			open_panel('dict');
+		}
+	});
 });

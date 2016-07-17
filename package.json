@@ -1,7 +1,7 @@
 {
 	"title": "간단한 영->한 사전/번역 : jjDicTrans",
 	"name": "jjdict",
-	"version": "0.5.4",
+	"version": "0.6.0",
 	"id": "jid1-c1ZLWIbWaA4YEA@jetpack",
 	"description": "English/Korean Dictionary+Translation Addon using a variety of Backend",
 	"main": "lib/main.js",

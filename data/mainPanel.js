@@ -26,10 +26,10 @@ function removeBackground(querys) {
 function daumDictModify(audio) {
 	//removeElement(['header']);
 	//removeBackground(['#daumWrap']);
-	var btn = document.querySelector('.btn_before');
-	btn.addEventListener('onclick', function(){
-		console.log("alskdjflaksdjflaskdjf");
-	}, false);
+	//var btn = document.querySelector('.btn_before');
+	//btn.addEventListener('onclick', function(){
+	//	console.log("alskdjflaksdjflaskdjf");
+	//}, false);
 	return;
 }
 

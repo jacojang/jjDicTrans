@@ -31,13 +31,29 @@ a,a:link, a:active, a:hover, a:visited {
 	border-bottom: 1px dotted #AAAAAA;
 	background-color: #EEEEEE;
 }
+.keyword_item {
+	margin-left: 5px;
+	margin-right: 5px;
+	cursor:pointer;
+	text-align: center;
+	color: black;
+}
+.keyword_item label {
+		width:100%;
+}
+.keyword_item input {
+		height: 24px;
+		line-height: 24px;
+		width:100%;
+}
+
 .link_item {
-	margin: 5px;
-	float: left;
-	width : 90px;
+	margin-left:2px;
+	margin-top:2px;
+	float: right;
+	width : 40px;
 	border: 1px solid #454545;
 	border-radius: 3px;
-	padding:3px;
 	cursor:pointer;
 	text-align: center;
 	background-color: white;
